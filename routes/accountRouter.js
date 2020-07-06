@@ -1,10 +1,10 @@
-import express from "express";
-import { accountModel } from "../models/account.js";
+import express from 'express';
+import { accountModel } from '../models/account.js';
 
 const app = express();
 
 // item ?? - listar todas as agências e contas
-app.get("/account", async (req, res) => {
+app.get('/account', async (req, res) => {
   try {
     const account = await accountModel.find({});
     res.send(account);
@@ -14,7 +14,7 @@ app.get("/account", async (req, res) => {
 });
 
 // item ?? - listar todas as agências e contas
-app.get("/account/:agencia", async (req, res) => {
+app.get('/account/:agencia', async (req, res) => {
   try {
     const account = await accountModel.find({ agencia: req.params.agencia });
     res.send(account);
@@ -24,7 +24,7 @@ app.get("/account/:agencia", async (req, res) => {
 });
 
 // item 04 - registrar despósito em uma agencia e conta
-app.patch("/account/deposito/:agencia/:conta/:valor", async (req, res) => {
+app.patch('/account/deposito/:agencia/:conta/:valor', async (req, res) => {
   try {
     // validando se o valor informado para depósito é maior que zero, caso contrário será exibida uma validação
     if (parseFloat(req.params.valor) <= 0) {
@@ -60,7 +60,7 @@ app.patch("/account/deposito/:agencia/:conta/:valor", async (req, res) => {
 });
 
 // item 05 - registrar saque em uma agência e conta, cobrar 1 real de tarifa
-app.patch("/account/saque/:agencia/:conta/:valor", async (req, res) => {
+app.patch('/account/saque/:agencia/:conta/:valor', async (req, res) => {
   try {
     const tarifa = 1;
 
@@ -105,7 +105,7 @@ app.patch("/account/saque/:agencia/:conta/:valor", async (req, res) => {
 });
 
 // item 06 - consultar saldo de uma agência e conta
-app.get("/account/saldo/:agencia/:conta", async (req, res) => {
+app.get('/account/saldo/:agencia/:conta', async (req, res) => {
   try {
     let account = await accountModel.findOne({
       agencia: req.params.agencia,
@@ -126,7 +126,7 @@ app.get("/account/saldo/:agencia/:conta", async (req, res) => {
 });
 
 // item 07 - excluir um conta de uma agência e retornar o número de contas da agência
-app.delete("/account/:agencia/:conta", async (req, res) => {
+app.delete('/account/:agencia/:conta', async (req, res) => {
   try {
     const account = await accountModel.findOneAndDelete({
       agencia: req.params.agencia,
@@ -159,7 +159,7 @@ app.delete("/account/:agencia/:conta", async (req, res) => {
 
 // item 08 - tranferência entre contas, se agência diferente, cobrar taxa de 8
 app.patch(
-  "/account/transferencia/:contaOrigem/:contaDestino/:valor",
+  '/account/transferencia/:contaOrigem/:contaDestino/:valor',
   async (req, res) => {
     try {
       // validando se o valor informado para transferência é maior que zero, caso contrário será exibida uma validação
@@ -245,10 +245,10 @@ app.patch(
 );
 
 // item extra - Médio do saldo de todas as agências
-app.get("/account/mediaSaldo/geral", async (req, res) => {
+app.get('/account/mediaSaldo/geral', async (req, res) => {
   try {
     const mediaPorAgencia = await accountModel.aggregate([
-      { $group: { _id: "$agencia", mediaBalance: { $avg: "$balance" } } },
+      { $group: { _id: '$agencia', mediaBalance: { $avg: '$balance' } } },
     ]);
     res.send(mediaPorAgencia);
   } catch (error) {
@@ -257,7 +257,7 @@ app.get("/account/mediaSaldo/geral", async (req, res) => {
 });
 
 // item 09 - Média do saldo dos clientes de uma determinada agência
-app.get("/account/mediaSaldo/:agencia", async (req, res) => {
+app.get('/account/mediaSaldo/:agencia', async (req, res) => {
   try {
     //verificando se a agência informada existe, caso contrário será exibida uma validação
     const qtdAgencia = await accountModel.countDocuments({
@@ -274,7 +274,7 @@ app.get("/account/mediaSaldo/:agencia", async (req, res) => {
 
     const mediaPorAgencia = await accountModel.aggregate([
       { $match: { agencia: parseInt(req.params.agencia) } },
-      { $group: { _id: "$agencia", mediaBalance: { $avg: "$balance" } } },
+      { $group: { _id: '$agencia', mediaBalance: { $avg: '$balance' } } },
     ]);
     res.send(mediaPorAgencia);
   } catch (error) {
@@ -283,10 +283,10 @@ app.get("/account/mediaSaldo/:agencia", async (req, res) => {
 });
 
 // item extra - menor saldo por agência
-app.get("/account/menorSaldo/geral", async (req, res) => {
+app.get('/account/menorSaldo/geral', async (req, res) => {
   try {
     const maiorSaldoPorAgencia = await accountModel.aggregate([
-      { $group: { _id: "$agencia", maiorSaldo: { $min: "$balance" } } },
+      { $group: { _id: '$agencia', maiorSaldo: { $min: '$balance' } } },
     ]);
     res.send(maiorSaldoPorAgencia);
   } catch (error) {
@@ -295,7 +295,7 @@ app.get("/account/menorSaldo/geral", async (req, res) => {
 });
 
 // item 10 - Menor saldo em conta, por quantidade de clientes
-app.get("/account/menorSaldo/:qtdCliente", async (req, res) => {
+app.get('/account/menorSaldo/:qtdCliente', async (req, res) => {
   try {
     const accounts = await accountModel
       .find({}, { _id: 0, name: 0 })
@@ -308,10 +308,10 @@ app.get("/account/menorSaldo/:qtdCliente", async (req, res) => {
 });
 
 // item extra - maior saldo por agência
-app.get("/account/maiorSaldo/geral", async (req, res) => {
+app.get('/account/maiorSaldo/geral', async (req, res) => {
   try {
     const maiorSaldoPorAgencia = await accountModel.aggregate([
-      { $group: { _id: "$agencia", maiorSaldo: { $max: "$balance" } } },
+      { $group: { _id: '$agencia', maiorSaldo: { $max: '$balance' } } },
     ]);
     res.send(maiorSaldoPorAgencia);
   } catch (error) {
@@ -320,7 +320,7 @@ app.get("/account/maiorSaldo/geral", async (req, res) => {
 });
 
 // item 11 - Maior saldo em conta, por quantidade de clientes
-app.get("/account/maiorSaldo/:qtdCliente", async (req, res) => {
+app.get('/account/maiorSaldo/:qtdCliente', async (req, res) => {
   try {
     const accounts = await accountModel
       .find({}, { _id: 0 })
@@ -333,12 +333,12 @@ app.get("/account/maiorSaldo/:qtdCliente", async (req, res) => {
 });
 
 // item 12 - Migrar os clientes mais ricos para uma agência privada (99)
-app.patch("/account/migrarPrivate", async (req, res) => {
+app.patch('/account/migrarPrivate', async (req, res) => {
   try {
     // obter todas as agências distintas
     const agenciaPrivada = 99;
 
-    const maiorSaldoPorAgencia = await accountModel.distinct("agencia", {
+    const maiorSaldoPorAgencia = await accountModel.distinct('agencia', {
       agencia: { $ne: agenciaPrivada },
     });
 
@@ -357,6 +357,15 @@ app.patch("/account/migrarPrivate", async (req, res) => {
     // consultando todos os clientes da agência privada para exibição
     const accounts = await accountModel.find({ agencia: agenciaPrivada });
     res.send(accounts);
+  } catch (error) {
+    res.status(500).send({ erro: error.message });
+  }
+});
+
+// teste git
+app.put('/account', async (req, red) => {
+  try {
+    res.send(req);
   } catch (error) {
     res.status(500).send({ erro: error.message });
   }
