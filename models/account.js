@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 // criando o modelo para o objeto conta
 const accountSchema = mongoose.Schema({
@@ -17,12 +17,13 @@ const accountSchema = mongoose.Schema({
   balance: {
     type: Number,
     required: true,
+    // validando se a nota é menor que 0
     validade(balance) {
-      if (balance < 0) throw new Error("Balance não pode ser menor que 0");
+      if (balance < 0) throw new Error('Balance não pode ser menor que 0');
     },
   },
 });
 
-const accountModel = mongoose.model("account", accountSchema, "account");
+const accountModel = mongoose.model('account', accountSchema, 'account');
 
 export { accountModel };
