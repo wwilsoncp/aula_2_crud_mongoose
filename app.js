@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { accountRouter } from "./routes/accountRouter.js";
 
+// URL de conexão com o MongoDB
 const URL_CONECTION =
   "mongodb+srv://willadmin:willadmin@bootcamp.llec9.mongodb.net/accounts?retryWrites=true&w=majority";
 
