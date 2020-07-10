@@ -1,22 +1,23 @@
-import express from "express";
-import mongoose from "mongoose";
-import { accountRouter } from "./routes/accountRouter.js";
+import express from 'express';
+import mongoose from 'mongoose';
+import { accountRouter } from './routes/accountRouter.js';
+import dotenv from 'dotenv';
 
-// URL de conexão com o MongoDB
-const URL_CONECTION =
-  "mongodb+srv://willadmin:willadmin@bootcamp.llec9.mongodb.net/accounts?retryWrites=true&w=majority";
+// inicializando o arquivo .env
+dotenv.config();
 
 // conectar ao MongoDB pelo mongoose
 const conectar = async () => {
+  const URL_CONNECTION = `mongodb+srv://${process.env.USERDB}:${process.env.PASSDB}@bootcamp.llec9.mongodb.net/${process.env.NAMEDB}?retryWrites=true&w=majority`;
   try {
-    await mongoose.connect(URL_CONECTION, {
+    await mongoose.connect(URL_CONNECTION, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
-    console.log("Database Connected.");
+    console.log('Database Connected.');
   } catch (error) {
-    console.log("Error on Connected MongoDB " + error);
+    console.log('Error on Connected MongoDB ' + error);
   }
 };
 
@@ -27,6 +28,6 @@ const app = express();
 app.use(express.json());
 app.use(accountRouter);
 
-app.listen(3000, () => {
-  console.log("API Started");
+app.listen(process.env.PORT, () => {
+  console.log('API Started');
 });
