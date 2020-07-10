@@ -25,6 +25,7 @@ conectar();
 
 const app = express();
 
+// Definindo que a manipulação será via json
 app.use(express.json());
 app.use(accountRougitter);
 
