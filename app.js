@@ -27,6 +27,7 @@ const app = express();
 
 // Definindo que a manipulação será via json
 app.use(express.json());
+// Definindo as rotas da aplicação
 app.use(accountRouter);
 
 app.listen(process.env.PORT, () => {
