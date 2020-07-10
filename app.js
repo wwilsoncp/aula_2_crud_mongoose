@@ -27,7 +27,8 @@ const app = express();
 
 // Definindo que a manipulação será via json
 app.use(express.json());
-app.use(accountRougitter);
+// Definindo as rotas da aplicação
+app.use(accountRouter);
 
 app.listen(process.env.PORT, () => {
   console.log('API Started');
