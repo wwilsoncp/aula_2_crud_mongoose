@@ -29,7 +29,7 @@ const app = express();
 app.use(express.json());
 // Definindo as rotas da aplicação
 app.use(accountRouter);
-
+// Iniciando a aplicação na porta definida no arquivo .env
 app.listen(process.env.PORT, () => {
   console.log('API Started');
 });
