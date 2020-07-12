@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 // inicializando o arquivo .env
 dotenv.config();
 
-// conectar ao MongoDB pelo mongoose
+// definindo o método que irá conectar ao MongoDB pelo mongoose
 const conectar = async () => {
   const URL_CONNECTION = `mongodb+srv://${process.env.USERDB}:${process.env.PASSDB}@bootcamp.llec9.mongodb.net/${process.env.NAMEDB}?retryWrites=true&w=majority`;
   try {
@@ -17,10 +17,11 @@ const conectar = async () => {
     });
     console.log('Database Connected.');
   } catch (error) {
-    console.log('Error on Connected MongoDB ' + error);
+    console.log('Error on Connected herok ' + error);
   }
 };
 
+// executando o método responsável pela conexão ao MongoDB
 conectar();
 
 const app = express();
